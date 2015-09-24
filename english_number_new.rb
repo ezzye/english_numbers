@@ -69,7 +69,7 @@
 # puts english_number(999999)
 # puts english_number(1000000000000)
 
-def english_number_small number
+def english_number_small_v1 number
   ones = %w(zero one two three four five six seven eight nine)
   tens = %w(zeor ten twenty thirty forty fifty sixty seventy eighty ninety)
   teens = %w(ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen)
@@ -94,12 +94,35 @@ def english_number_small number
     result = result + ones[num_of_units]
   end
 
-
-
-
 return result  #check for space as last character
 
 end
 
+def english_number_small number
+  return 'zero ' if number == 0
+  ones = ['','one','two','three','four','five','six','seven','eight','nine']
+  tens = %w(zero ten twenty thirty forty fifty sixty seventy eighty ninety)
+  teens = %w(ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen)
+  result = ''
+  num_of_hundreds = number/100
+  if num_of_hundreds > 0
+    result += ones[num_of_hundreds] + ' hundred '
+    number -= num_of_hundreds*100
+  end
+  if number >= 20
+    result += tens[number/10] + ' ' + ones[number % 10] + ' '
+  elsif number >=10 && number <= 19
+    result += teens[number - 10] + ' '
+  elsif number > 0
+    result += ones[number] + ' '
+  end
+  result.gsub!('  ',' ')
+  result
+end
 
-p english_number_small 567
+
+# p english_number_small 78
+
+(0..99).each do |number|
+  p english_number_small number
+end

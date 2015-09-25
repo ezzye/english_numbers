@@ -69,34 +69,34 @@
 # puts english_number(999999)
 # puts english_number(1000000000000)
 
-def english_number_small_v1 number
-  ones = %w(zero one two three four five six seven eight nine)
-  tens = %w(zeor ten twenty thirty forty fifty sixty seventy eighty ninety)
-  teens = %w(ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen)
+# def english_number_small_v1 number
+#   ones = %w(zero one two three four five six seven eight nine)
+#   tens = %w(zeor ten twenty thirty forty fifty sixty seventy eighty ninety)
+#   teens = %w(ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen)
 
 
-  result = ''
-  num_of_hundreds = number/100
-  result = result + ones[num_of_hundreds] + ' hundred '
+#   result = ''
+#   num_of_hundreds = number/100
+#   result = result + ones[num_of_hundreds] + ' hundred '
 
-  number = number - num_of_hundreds*100
+#   number = number - num_of_hundreds*100
 
-  if number >= 20
-    num_of_tens =number/10
-    result = result + tens[num_of_tens] + ' '
-    num_of_units = number % 10
-    result = result + ones[num_of_units]
-  elsif number >=10 && number <= 19
-    num_of_teens = number - 10
-    result = result + teens[num_of_teens]
-  elsif number > 0
-    num_of_units = number
-    result = result + ones[num_of_units]
-  end
+#   if number >= 20
+#     num_of_tens =number/10
+#     result = result + tens[num_of_tens] + ' '
+#     num_of_units = number % 10
+#     result = result + ones[num_of_units]
+#   elsif number >=10 && number <= 19
+#     num_of_teens = number - 10
+#     result = result + teens[num_of_teens]
+#   elsif number > 0
+#     num_of_units = number
+#     result = result + ones[num_of_units]
+#   end
 
-return result  #check for space as last character
+# return result  #check for space as last character
 
-end
+# end
 
 def english_number_small number
   return 'zero ' if number == 0
@@ -121,8 +121,46 @@ def english_number_small number
 end
 
 
-# p english_number_small 78
+def english_number number
 
-(0..99).each do |number|
-  p english_number_small number
+  result = ""
+
+  namesOfBigNumbers = {
+                      0 => "",
+                      1 => "thousand",
+                      2 => "million",
+                      3 => "billion"
+                    }
+
+  findMultiples(number).each do |key,value|
+    if value != 0
+    result = english_number_small(value)  + namesOfBigNumbers[key] + " " + result
+    else
+    end
+  end
+
+  result
+
 end
+
+
+def findMultiples number
+  multiplesOfThree = (number.to_i.to_s.length / 3)
+
+  numberHash = {}
+
+  left = number
+
+  (0..multiplesOfThree).each do |index|
+      numberHash[index] = left%1000
+    left = left / 1000
+  end
+  numberHash
+end
+
+
+p english_number 99222178
+
+# (0..99).each do |number|
+#   p english_number_small number
+# end
